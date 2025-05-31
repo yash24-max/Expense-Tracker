@@ -36,7 +36,7 @@ public class JwtUtil {
     public String extractUsername(String token) {
         try {
             SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getSubject();
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
         } catch (Exception e) {
             LOGGER.error("Error in extractUsername() method !!", e);
         }
