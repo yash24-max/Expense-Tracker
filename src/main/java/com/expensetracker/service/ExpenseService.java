@@ -67,7 +67,7 @@ public class ExpenseService {
     public ResponseEntity<?> getAllExpenses() {
         try {
             User user = userRepository.findByUsername(getCurrentUser()).orElseThrow(() -> new NoSuchElementException("User not found"));
-            List<?> expenseList = expenseRepository.findByUser(user).stream().map(this::toDTO).toList();
+            List<?> expenseList = expenseRepository.findByUserId(user.getId()).stream().map(this::toDTO).toList();
             return new ResponseEntity<>(expenseList, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             LOGGER.error(e.getMessage());
@@ -81,7 +81,7 @@ public class ExpenseService {
     public ResponseEntity<?> getExpensesBetween(LocalDateTime start, LocalDateTime end) {
         try {
             User user = userRepository.findByUsername(getCurrentUser()).orElseThrow(() -> new NoSuchElementException("User not found"));
-            List<?> expenseList = expenseRepository.findByUserAndDateBetween(user, start, end).stream().map(this::toDTO).toList();
+            List<?> expenseList = expenseRepository.findByUserIdAndDateBetween(user.getId(), start, end).stream().map(this::toDTO).toList();
             return new ResponseEntity<>(expenseList, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             LOGGER.error(e.getMessage());
